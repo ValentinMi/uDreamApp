@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import Center from "../components/Center";
-import { AuthNavProps } from "../AuthParamList";
+import { AuthNavProps } from "../types/AuthParamList";
 
 interface RegisterProps {}
 
