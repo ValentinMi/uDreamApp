@@ -13,25 +13,29 @@ const Stack = createStackNavigator<AuthParamList>();
 
 const AuthStack: React.FC<AuthStackProps> = () => {
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        headerRight: () => (
+          <Text
+            style={{
+              color: "#fff",
+              fontWeight: "bold",
+              fontSize: 20,
+              backgroundColor: colors.primary,
+              padding: 10,
+              borderRadius: commons.frameBorderRadius,
+              marginRight: 10
+            }}
+          >
+            uDream
+          </Text>
+        )
+      }}
+    >
       <Stack.Screen
         options={{
-          headerTitle: "- Sign in",
-          headerRight: () => (
-            <Text
-              style={{
-                color: "#fff",
-                fontWeight: "bold",
-                fontSize: 20,
-                backgroundColor: colors.primary,
-                padding: 10,
-                borderRadius: commons.frameBorderRadius,
-                marginRight: 10
-              }}
-            >
-              uDream
-            </Text>
-          )
+          headerTitle: "- Sign in"
         }}
         name="Login"
         component={Login}

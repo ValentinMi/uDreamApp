@@ -18,7 +18,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   type,
   onChange
 }) => {
-  const inputRef = useRef(null);
+  const inputRef = useRef<null>(null);
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const handleBackPress = () => {
@@ -48,25 +48,31 @@ const CustomInput: React.FC<CustomInputProps> = ({
   }, []);
 
   return (
-    <View style={styles.inputContainer}>
-      <Text style={isActive ? styles.activeLabel : styles.label}>{label}</Text>
-      <TextInput
-        value={value}
-        ref={inputRef}
-        style={styles.input}
-        textContentType={
-          type === "email"
-            ? "emailAddress"
-            : type === "password"
-            ? "password"
-            : null
-        }
-        secureTextEntry={type === "password"}
-        onFocus={() => setIsActive(true)}
-        onBlur={() => setIsActive(false)}
-        autoCapitalize={type !== "email" ? "none" : null}
-        onChangeText={text => onChange(name, text)}
-      />
+    <View>
+      <View style={styles.inputContainer}>
+        <Text style={isActive ? styles.activeLabel : styles.label}>
+          {label}
+        </Text>
+        <TextInput
+          value={value}
+          ref={inputRef}
+          style={styles.input}
+          textContentType={
+            type === "email"
+              ? "emailAddress"
+              : type === "password"
+              ? "password"
+              : null
+          }
+          secureTextEntry={type === "password"}
+          onFocus={() => setIsActive(true)}
+          onBlur={() => setIsActive(false)}
+          autoCapitalize={
+            type === "email" || type === "password" ? "none" : "sentences"
+          }
+          onChangeText={text => onChange(name, text)}
+        />
+      </View>
     </View>
   );
 };
@@ -100,6 +106,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     backgroundColor: colors.button
+  },
+  error: {
+    color: "red",
+    textAlign: "center",
+    fontWeight: "bold"
   }
 });
 

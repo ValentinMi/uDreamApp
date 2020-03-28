@@ -1,6 +1,5 @@
-import React from "react";
-import { Text, StyleSheet, View, Button } from "react-native";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import React, { useState } from "react";
+import { StyleSheet, View, Button, Text } from "react-native";
 import colors from "../utils/colors";
 import { FieldParamList } from "../types/FieldParamList";
 import commons from "../utils/commons";
@@ -9,30 +8,54 @@ import useForm from "../hooks/useForm";
 
 interface FormProps {
   fieldsList: Array<FieldParamList>;
+  btnTitle: string;
   onSubmit: Function;
-  validation: object;
+  validation: (form: object) => Promise<string | false>;
 }
 
-const Form: React.FC<FormProps> = ({ fieldsList, onSubmit, validation }) => {
-  const [formValues, onChange] = useForm({ email: "", password: "" });
+const Form: React.FC<FormProps> = ({
+  fieldsList,
+  validation,
+  btnTitle,
+  onSubmit
+}) => {
+  const [formValues, onChange] = useForm();
+  const [error, setError] = useState<string | null>(null);
+
+  const validateForm = async () => {
+    let error = await validation(formValues);
+    if (error) {
+      setError(error);
+    } else {
+      const error = await onSubmit(formValues);
+      if (error) {
+        setError(error.message);
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       {fieldsList.map((field, idx) => (
-        <CustomInput
-          name={field.label.toLowerCase()}
-          value={formValues[field.label.toLowerCase()]}
-          label={field.label}
-          type={field.type}
-          key={field.label + idx}
-          onChange={onChange}
-        />
+        <View key={field.label + idx} style={styles.inputContainer}>
+          <CustomInput
+            name={field.name}
+            value={formValues[field.label.toLowerCase()]}
+            label={field.label}
+            type={field.type}
+            onChange={onChange}
+          />
+        </View>
       ))}
-      <Button
-        title="Log in"
-        onPress={() => onSubmit(formValues)}
-        color={colors.button}
-        accessibilityLabel="Log in"
-      />
+      {error && <Text style={styles.error}>{error}</Text>}
+      <View style={styles.submitContainer}>
+        <Button
+          title={btnTitle}
+          onPress={validateForm}
+          color={colors.button}
+          accessibilityLabel={btnTitle}
+        />
+      </View>
     </View>
   );
 };
@@ -42,12 +65,21 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center",
-    height: "50%",
-    width: "80%",
-    paddingTop: 20,
-    paddingHorizontal: 10,
+    width: "90%",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
     backgroundColor: "#fff",
     borderRadius: commons.frameBorderRadius
+  },
+  inputContainer: {
+    marginVertical: 10
+  },
+  submitContainer: {
+    marginTop: 10
+  },
+  error: {
+    color: "red",
+    fontWeight: "bold"
   }
 });
 

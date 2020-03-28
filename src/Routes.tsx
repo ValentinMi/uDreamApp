@@ -18,6 +18,7 @@ const Routes: React.FC<RoutesProps> = () => {
 
   const isUserLogged = useCallback(async () => {
     try {
+      setIsLoading(true);
       const user = await getStoredData();
       if (user) {
         login();
@@ -25,6 +26,7 @@ const Routes: React.FC<RoutesProps> = () => {
       setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   }, []);
 

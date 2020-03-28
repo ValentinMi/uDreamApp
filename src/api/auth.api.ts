@@ -1,12 +1,13 @@
 import axios from "axios";
 import { apiRoutes } from "./config";
-
-type Credentials = {
-  email: string;
-  password: string;
-};
+import { Credentials } from "../types/AuthParamList";
 
 export const authUser = async (credentials: Credentials) => {
-  const { data } = await axios.post(apiRoutes.auth, credentials);
-  return data;
+  try {
+    const { data } = await axios.post(apiRoutes.auth, credentials);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw Error("Invalid email or password");
+  }
 };
