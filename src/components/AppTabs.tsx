@@ -5,6 +5,7 @@ import { AppParamList } from "../types/AppParamList";
 import Diary from "../pages/Diary";
 import Stats from "../pages/Stats";
 import HomeStack from "../HomeStack";
+import colors from "../utils/colors";
 
 interface AppTabsProps {}
 
@@ -36,7 +37,7 @@ const AppTabs: React.FC<AppTabsProps> = () => {
         }
       })}
       tabBarOptions={{
-        activeTintColor: "tomato",
+        activeTintColor: colors.primary,
         inactiveTintColor: "gray"
       }}
     >

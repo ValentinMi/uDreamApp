@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     width: "90%",
+    minHeight: 300,
     paddingVertical: 20,
     paddingHorizontal: 20,
     backgroundColor: "#fff",

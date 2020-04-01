@@ -8,6 +8,6 @@ export const authUser = async (credentials: Credentials) => {
     return data;
   } catch (error) {
     console.log(error);
-    throw Error("Invalid email or password");
+    throw new Error("Invalid email or password");
   }
 };

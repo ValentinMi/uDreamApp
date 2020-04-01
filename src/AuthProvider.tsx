@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import jwtDecode from "jwt-decode";
+import axios from "axios";
 import { useAsyncStorage } from "./hooks/useAsyncStorage";
 import { USER_ASYNC_STORAGE_KEY } from "./constants/users.constants";
 import { authUser } from "./api/auth.api";
@@ -36,6 +37,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const userAuthToken = await authUser(credentials);
             if (userAuthToken) {
               setStoredData(userAuthToken);
+              axios.defaults.headers.common = {
+                "uDream-auth-token": userAuthToken
+              };
               const decoded = jwtDecode(userAuthToken);
               setUser(decoded);
             }
@@ -44,6 +48,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           }
         },
         loginWithJwt: jwt => {
+          axios.defaults.headers.common = { "uDream-auth-token": jwt };
           const decoded = jwtDecode(jwt);
           setUser(decoded);
         },

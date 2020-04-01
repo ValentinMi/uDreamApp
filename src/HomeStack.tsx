@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import Feed from "./components/Feed";
+import Feed from "./pages/Feed";
 import { AuthContext } from "./AuthProvider";
 
 interface HomeStackProps {}

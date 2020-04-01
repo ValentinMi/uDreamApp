@@ -7,7 +7,7 @@ interface CustomInputProps {
   name: string;
   value: string;
   label: string;
-  type: "select" | "input" | "password" | "email";
+  type: "select" | "input" | "password" | "email" | "textarea" | "keywords";
   onChange: (key: string, value: string | number) => void;
 }
 
@@ -18,7 +18,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   type,
   onChange
 }) => {
-  const inputRef = useRef<null>(null);
+  const inputRef = useRef<any>(null);
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const handleBackPress = () => {
@@ -48,31 +48,51 @@ const CustomInput: React.FC<CustomInputProps> = ({
   }, []);
 
   return (
-    <View>
-      <View style={styles.inputContainer}>
-        <Text style={isActive ? styles.activeLabel : styles.label}>
-          {label}
-        </Text>
-        <TextInput
-          value={value}
-          ref={inputRef}
-          style={styles.input}
-          textContentType={
-            type === "email"
-              ? "emailAddress"
-              : type === "password"
-              ? "password"
-              : null
-          }
-          secureTextEntry={type === "password"}
-          onFocus={() => setIsActive(true)}
-          onBlur={() => setIsActive(false)}
-          autoCapitalize={
-            type === "email" || type === "password" ? "none" : "sentences"
-          }
-          onChangeText={text => onChange(name, text)}
-        />
-      </View>
+    <View
+      style={
+        type !== "textarea"
+          ? styles.inputContainer
+          : textareaStyles.inputContainer
+      }
+    >
+      <Text
+        style={
+          type !== "textarea"
+            ? !isActive
+              ? styles.label
+              : { ...styles.label, backgroundColor: colors.button }
+            : !isActive
+            ? textareaStyles.label
+            : { ...textareaStyles.label, backgroundColor: colors.button }
+        }
+      >
+        {label}
+      </Text>
+      <TextInput
+        value={value}
+        ref={inputRef}
+        style={type !== "textarea" ? styles.input : textareaStyles.input}
+        textContentType={
+          type === "email"
+            ? "emailAddress"
+            : type === "password"
+            ? "password"
+            : null
+        }
+        secureTextEntry={type === "password"}
+        onFocus={() => setIsActive(true)}
+        onBlur={() => setIsActive(false)}
+        autoCapitalize={
+          type === "email" || type === "password"
+            ? "none"
+            : type === "keywords"
+            ? "words"
+            : "sentences"
+        }
+        onChangeText={text => onChange(name, text)}
+        multiline={type === "textarea"}
+        textAlignVertical={type === "textarea" ? "top" : "auto"}
+      />
     </View>
   );
 };
@@ -98,14 +118,35 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5,
     paddingLeft: 3
   },
-  activeLabel: {
+  error: {
+    color: "red",
+    textAlign: "center",
+    fontWeight: "bold"
+  }
+});
+
+const textareaStyles = StyleSheet.create({
+  inputContainer: {
+    flexDirection: "row",
+    width: "100%",
+    flexWrap: "wrap"
+  },
+  label: {
     textAlign: "center",
     padding: 10,
     color: "#fff",
-    width: "35%",
+    width: "100%",
+    borderTopRightRadius: 5,
     borderTopLeftRadius: 5,
+    backgroundColor: colors.primary
+  },
+  input: {
+    width: "100%",
+    height: 100,
+    backgroundColor: colors.background,
+    borderBottomRightRadius: 5,
     borderBottomLeftRadius: 5,
-    backgroundColor: colors.button
+    paddingLeft: 3
   },
   error: {
     color: "red",
