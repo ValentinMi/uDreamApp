@@ -6,7 +6,7 @@ import { USER_ASYNC_STORAGE_KEY } from "./constants/users.constants";
 import { authUser } from "./api/auth.api";
 import { Credentials } from "./types/AuthParamList";
 
-type User = null | { username: string };
+type User = null | { username: string; _id: string };
 
 export const AuthContext = React.createContext<{
   user: User;

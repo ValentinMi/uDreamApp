@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from "@expo/vector-icons";
 import { AppParamList } from "../types/AppParamList";
 import Diary from "../pages/Diary";
-import Stats from "../pages/Stats";
 import HomeStack from "../HomeStack";
 import colors from "../utils/colors";
+import StatsStack from "../StatsStack";
 
 interface AppTabsProps {}
 
@@ -41,7 +41,7 @@ const AppTabs: React.FC<AppTabsProps> = () => {
         inactiveTintColor: "gray"
       }}
     >
-      <Tabs.Screen name="Stats" component={Stats} />
+      <Tabs.Screen name="Stats" component={StatsStack} />
       <Tabs.Screen name="Home" component={HomeStack} />
       <Tabs.Screen name="Diary" component={Diary} />
     </Tabs.Navigator>

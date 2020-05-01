@@ -9,12 +9,20 @@ interface DreamProps {
 
 const Dream: React.FC<DreamProps> = ({ dream }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
+  const date = new Date(dream.creationDate);
+  const formattedDate = `${date.getDate()}/${
+    date.getMonth() + 1
+  }/${date.getFullYear()}`;
 
   return (
     <View onTouchEnd={() => setIsActive(!isActive)} style={styles.container}>
-      <Text style={styles.date}>{dream.creationDate}</Text>
-      <Text style={styles.title}>{dream.title}</Text>
-      <Text style={styles.note}>{dream.note}</Text>
+      <View style={styles.header}>
+        <Text style={styles.date}>{formattedDate}</Text>
+        <Text style={styles.title}>{dream.title}</Text>
+        <View style={styles.noteContainer}>
+          <Text style={styles.note}>{dream.note}</Text>
+        </View>
+      </View>
       {isActive && (
         <>
           <Text style={styles.text}>{dream.description}</Text>
@@ -42,40 +50,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: "90%",
-    borderColor: "blue",
-    borderWidth: 1,
     marginVertical: 10,
     marginHorizontal: "5%",
     backgroundColor: colors.background,
-    position: "relative",
-    borderRadius: 10
+    position: "relative"
+  },
+  header: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    backgroundColor: colors.primary,
+    padding: 3
   },
   date: {
-    position: "absolute",
-    top: 5,
-    left: 3,
-    backgroundColor: colors.primary,
+    width: "33%",
     color: "#fff",
     borderRadius: 10,
     paddingHorizontal: 5,
     paddingVertical: 3
   },
   title: {
-    textAlign: "center",
-    color: colors.subBackground,
+    width: "33%",
+    color: "white",
     fontWeight: "bold",
-    marginTop: 5
+    marginTop: 5,
+    textAlign: "center"
+  },
+  noteContainer: {
+    width: "33%",
+    flexDirection: "row",
+    justifyContent: "flex-end"
   },
   note: {
-    position: "absolute",
-    top: 5,
-    right: 3,
     backgroundColor: "#FFC107",
-    borderRadius: 100,
+    borderRadius: 50,
     paddingHorizontal: 10,
     paddingVertical: 5,
     color: "#fff",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    width: 30
   },
   author: {
     textAlign: "right",

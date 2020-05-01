@@ -5,6 +5,7 @@ import { FieldParamList } from "../types/FieldParamList";
 import commons from "../utils/commons";
 import CustomInput from "./CustomInput";
 import useForm from "../hooks/useForm";
+import DateInput from "./DateInput";
 
 interface FormProps {
   fieldsList: Array<FieldParamList>;
@@ -17,10 +18,21 @@ const Form: React.FC<FormProps> = ({
   fieldsList,
   validation,
   btnTitle,
-  onSubmit
+  onSubmit,
 }) => {
   const [formValues, onChange] = useForm();
   const [error, setError] = useState<string | null>(null);
+
+  // const handleDate = (date: string): Date => {
+  //   const splittedDate = date.split("/");
+  //   const newDate = new Date();
+  //   newDate.setDate(parseInt(splittedDate[0]));
+  //   newDate.setMonth(parseInt(splittedDate[1]) - 1);
+  //   newDate.setFullYear(parseInt(splittedDate[2]));
+  //   newDate.toJSON();
+  //   console.log("date", newDate);
+  //   return newDate;
+  // };
 
   const validateForm = async () => {
     let error = await validation(formValues);
@@ -38,13 +50,17 @@ const Form: React.FC<FormProps> = ({
     <View style={styles.container}>
       {fieldsList.map((field, idx) => (
         <View key={field.label + idx} style={styles.inputContainer}>
-          <CustomInput
-            name={field.name}
-            value={formValues[field.label.toLowerCase()]}
-            label={field.label}
-            type={field.type}
-            onChange={onChange}
-          />
+          {field.type === "date" ? (
+            <DateInput value={formValues[field.name]} onChange={onChange} />
+          ) : (
+            <CustomInput
+              name={field.name}
+              value={formValues[field.name]}
+              label={field.label}
+              type={field.type}
+              onChange={onChange}
+            />
+          )}
         </View>
       ))}
       {error && <Text style={styles.error}>{error}</Text>}
@@ -70,18 +86,18 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 20,
     backgroundColor: "#fff",
-    borderRadius: commons.frameBorderRadius
+    borderRadius: commons.frameBorderRadius,
   },
   inputContainer: {
-    marginVertical: 10
+    marginVertical: 10,
   },
   submitContainer: {
-    marginTop: 10
+    marginTop: 10,
   },
   error: {
     color: "red",
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 });
 
 export default Form;

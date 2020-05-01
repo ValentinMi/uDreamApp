@@ -4,10 +4,8 @@ import capitalize from "../utils/capitalize";
 
 export const validateLoginForm = async (form: object) => {
   const schema = Yup.object({
-    email: Yup.string()
-      .email()
-      .required(),
-    password: Yup.string().required()
+    email: Yup.string().email().required(),
+    password: Yup.string().required(),
   });
 
   return validate(schema, form);
@@ -15,31 +13,12 @@ export const validateLoginForm = async (form: object) => {
 
 export const validateRegisterForm = async (form: any) => {
   const schema = Yup.object({
-    username: Yup.string()
-      .min(4)
-      .max(255)
-      .required(),
-    firstname: Yup.string()
-      .min(2)
-      .max(255)
-      .required(),
-    lastname: Yup.string()
-      .min(2)
-      .max(255)
-      .required(),
-    email: Yup.string()
-      .email()
-      .min(4)
-      .max(255)
-      .required(),
-    password: Yup.string()
-      .min(8)
-      .max(255)
-      .required(),
-    passwordConfirmation: Yup.string()
-      .min(8)
-      .max(255)
-      .required()
+    username: Yup.string().min(4).max(255).required(),
+    firstname: Yup.string().min(2).max(255).required(),
+    lastname: Yup.string().min(2).max(255).required(),
+    email: Yup.string().email().min(4).max(255).required(),
+    password: Yup.string().min(8).max(255).required(),
+    passwordConfirmation: Yup.string().min(8).max(255).required(),
   });
 
   if (form.password == form.passwordConfirmation) {
@@ -51,21 +30,11 @@ export const validateRegisterForm = async (form: any) => {
 
 export const validateDreamForm = async (form: Dream) => {
   const schema = Yup.object({
-    title: Yup.string()
-      .min(2)
-      .max(255)
-      .required(),
-    note: Yup.number()
-      .min(0)
-      .max(5)
-      .required(),
-    description: Yup.string()
-      .min(1)
-      .max(3000)
-      .required(),
-    keywords: Yup.string()
-      .min(0)
-      .max(100)
+    date: Yup.date().required(),
+    title: Yup.string().min(2).max(255).required(),
+    note: Yup.number().min(0).max(5).required(),
+    description: Yup.string().min(1).max(3000).required(),
+    keywords: Yup.string().min(0).max(100),
   });
 
   return validate(schema, form);

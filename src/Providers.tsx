@@ -1,14 +1,17 @@
 import React from "react";
 import AuthProvider from "./AuthProvider";
+import LoadingProvider from "./LoadingProvider";
 import Routes from "./Routes";
 
 interface ProvidersProps {}
 
 const Providers: React.FC<ProvidersProps> = () => {
   return (
-    <AuthProvider>
-      <Routes />
-    </AuthProvider>
+    <LoadingProvider>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+    </LoadingProvider>
   );
 };
 
